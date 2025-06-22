@@ -1,0 +1,535 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>DASSA CONTACT ID VERSION</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+  <style>
+    /* Base Styles */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+
+    body {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      margin: 0;
+      font-family: 'Poppins', sans-serif;
+      color: #fff;
+      background-color: #000;
+      overflow: hidden;
+      position: relative;
+    }
+
+    /* Advanced Neon Cyberpunk Background */
+    .background {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: -2;
+    }
+    
+    .hexagon-container {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+      z-index: -1;
+    }
+    
+    .hexagon {
+      position: absolute;
+      width: 100px;
+      height: 110px;
+      background: rgba(0, 183, 255, 0.1);
+      box-shadow: 0 0 20px rgba(0, 183, 255, 0.5), inset 0 0 20px rgba(0, 183, 255, 0.2);
+      clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%);
+      animation: float 15s infinite linear;
+      opacity: 0;
+    }
+    
+    .grid-line {
+      position: absolute;
+      background: linear-gradient(90deg, transparent, rgba(0, 183, 255, 0.2), transparent);
+      transform-origin: center;
+    }
+    
+    .horizontal-line {
+      width: 100%;
+      height: 1px;
+    }
+    
+    .vertical-line {
+      width: 1px;
+      height: 100%;
+    }
+    
+    .circle-pulse {
+      position: absolute;
+      width: 300px;
+      height: 300px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(128, 0, 255, 0.4) 0%, transparent 70%);
+      filter: blur(20px);
+      animation: pulse 8s infinite ease-in-out;
+    }
+
+    /* Main Container Styling */
+    .container {
+      position: relative;
+      z-index: 10;
+      max-width: 420px;
+      width: 90%;
+      padding: 10px;
+      perspective: 1000px;
+    }
+
+    .box {
+      background: rgba(15, 23, 42, 0.8);
+      backdrop-filter: blur(10px);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 16px;
+      padding: 30px 25px;
+      box-shadow: 
+        0 10px 25px rgba(0, 0, 0, 0.5),
+        0 0 50px rgba(128, 0, 255, 0.3),
+        0 0 2px rgba(255, 255, 255, 0.2) inset;
+      transform-style: preserve-3d;
+      transform: translateZ(0);
+      transition: transform 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+      overflow: hidden;
+      position: relative;
+    }
+
+    .box::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -150%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(
+        90deg,
+        transparent,
+        rgba(255, 255, 255, 0.1),
+        transparent
+      );
+      transform: skewX(-15deg);
+      transition: 0.5s;
+    }
+
+    .box:hover {
+      transform: translateY(-5px) rotateX(5deg) rotateY(-5deg);
+      box-shadow: 
+        0 15px 35px rgba(0, 0, 0, 0.5),
+        0 0 70px rgba(128, 0, 255, 0.4),
+        0 0 3px rgba(255, 255, 255, 0.3) inset;
+    }
+
+    .box:hover::before {
+      left: 150%;
+    }
+
+    .box::after {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(135deg, 
+        rgba(255, 255, 255, 0.03) 0%, 
+        rgba(255, 255, 255, 0) 20%, 
+        rgba(255, 255, 255, 0) 80%, 
+        rgba(255, 255, 255, 0.03) 100%);
+      pointer-events: none;
+    }
+
+    /* Text Styling */
+    #text {
+      position: relative;
+      z-index: 2;
+      color: white;
+    }
+
+    .centered-text {
+      text-align: center;
+      font-weight: 500;
+      font-size: 1rem;
+      margin: 15px 0;
+      color: rgba(255, 255, 255, 0.9);
+      letter-spacing: 0.5px;
+      text-shadow: 0 0 10px rgba(128, 0, 255, 0.7);
+    }
+
+    h5.centered-text {
+      font-size: 1.2rem;
+      font-weight: 600;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      margin-bottom: 20px;
+      background: linear-gradient(90deg, #00b7ff, #ff00e6);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      text-shadow: none;
+    }
+
+    /* Input Styling */
+    .input-container {
+      display: flex;
+      flex-direction: column;
+      gap: 15px;
+      margin-top: 20px;
+    }
+
+    .input-container input {
+      background: rgba(16, 23, 42, 0.7);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 12px;
+      padding: 15px;
+      color: white;
+      font-size: 1rem;
+      transition: all 0.3s ease;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+    }
+
+    .input-container input:focus {
+      outline: none;
+      border-color: #00b7ff;
+      box-shadow: 0 0 15px rgba(0, 183, 255, 0.5);
+    }
+
+    .input-container input::placeholder {
+      color: rgba(255, 255, 255, 0.5);
+    }
+
+    /* Button Styling */
+    .input-container button {
+      background: linear-gradient(135deg, #00b7ff, #7e00ff);
+      color: white;
+      border: none;
+      padding: 15px;
+      border-radius: 12px;
+      font-weight: 600;
+      font-size: 1rem;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      position: relative;
+      overflow: hidden;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+    }
+
+    .input-container button::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+      transition: 0.5s;
+    }
+
+    .input-container button:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 8px 25px rgba(0, 0, 0, 0.4), 0 0 20px rgba(0, 183, 255, 0.4);
+    }
+
+    .input-container button:hover::before {
+      left: 100%;
+    }
+
+    .input-container button:active {
+      transform: translateY(0);
+    }
+
+    /* WhatsApp Button */
+    .button-container {
+      margin: 25px 0;
+    }
+
+    .whatsapp-button {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: linear-gradient(135deg, #25D366, #128C7E);
+      color: white;
+      text-decoration: none;
+      padding: 15px 20px;
+      border-radius: 12px;
+      font-weight: 600;
+      font-size: 1rem;
+      transition: all 0.3s ease;
+      position: relative;
+      overflow: hidden;
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+    }
+
+    .whatsapp-button i {
+      margin-right: 10px;
+      font-size: 1.3em;
+    }
+
+    .whatsapp-button::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+      transition: 0.5s;
+    }
+
+    .whatsapp-button:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 8px 25px rgba(0, 0, 0, 0.4), 0 0 20px rgba(37, 211, 102, 0.4);
+    }
+
+    .whatsapp-button:hover::before {
+      left: 100%;
+    }
+
+    /* Status messages */
+    #waiting-message {
+      font-weight: 500;
+      color: #00b7ff;
+      margin-top: 15px;
+      text-align: center;
+      animation: glow 1.5s infinite alternate;
+    }
+
+    #pair {
+      margin-top: 20px;
+      text-align: center;
+    }
+
+    #copy {
+      cursor: pointer;
+      font-weight: 600;
+      padding: 10px 15px;
+      background: linear-gradient(90deg, #ff00e6, #00b7ff);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      transition: all 0.3s ease;
+      display: inline-block;
+      position: relative;
+    }
+
+    #copy::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      height: 2px;
+      background: linear-gradient(90deg, #ff00e6, #00b7ff);
+      transform: scaleX(0);
+      transform-origin: left;
+      transition: transform 0.3s ease;
+    }
+
+    #copy:hover::after {
+      transform: scaleX(1);
+    }
+
+    #copy:hover {
+      transform: translateY(-3px);
+      text-shadow: 0 0 10px rgba(0, 183, 255, 0.8);
+    }
+
+    /* Animations */
+    @keyframes float {
+      0% { transform: translateY(0) rotate(0deg); opacity: 0; }
+      10% { opacity: 0.5; }
+      90% { opacity: 0.5; }
+      100% { transform: translateY(-1000px) rotate(360deg); opacity: 0; }
+    }
+
+    @keyframes pulse {
+      0% { transform: scale(0.8); opacity: 0.3; }
+      50% { transform: scale(1.2); opacity: 0.5; }
+      100% { transform: scale(0.8); opacity: 0.3; }
+    }
+
+    @keyframes glow {
+      from { text-shadow: 0 0 5px #00b7ff, 0 0 10px #00b7ff, 0 0 15px #7e00ff; }
+      to { text-shadow: 0 0 10px #00b7ff, 0 0 20px #00b7ff, 0 0 30px #7e00ff; }
+    }
+
+    /* Responsive styles */
+    @media (max-width: 500px) {
+      .container {
+        width: 95%;
+      }
+      
+      .box {
+        padding: 20px 15px;
+      }
+      
+      .whatsapp-button, .input-container button {
+        padding: 12px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- Dynamic Background -->
+  <div class="background">
+    <div class="hexagon-container" id="hexagonContainer"></div>
+    <div id="gridContainer"></div>
+    <div class="circle-pulse" style="top: 30%; left: 20%;"></div>
+    <div class="circle-pulse" style="top: 70%; left: 80%;"></div>
+  </div>
+
+  <div class="container">
+    <div class="main">
+      <div class="box fade-in" id="box">
+        <div id="text">
+          <i class="fa fa-user"></i>
+          <h5 class="centered-text">CONTACT PUSH SITE POWERED BY DASSA</h5>
+          <div class="button-container">
+            <a id="icon-button" class="whatsapp-button" href="https://chat.whatsapp.com/EaT8qBl0Atg9IaiBI1hAeC" target="_blank">
+              <i class="fab fa-whatsapp"></i> Join WhatsApp Group 
+            </a>
+          </div>         
+          <div class="centered-text">Enter your number with country code</div>
+          <div class="input-container">
+            <input placeholder="+94743277981" type="number" id="number" name="number">
+            <input placeholder="Enter your message" type="text" id="customMessage" name="message">
+            <button id="submit">Enter</button>
+          </div>
+          <div id="waiting-message" class="centered-text" style="display: none;">In process...</div>
+          <main id="pair"></main>
+        </div>
+      </div>
+    </div>
+  </div>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.0.0-alpha.1/axios.min.js"></script>
+  <script>
+    let pairElement = document.getElementById("pair");
+    let submitButton = document.getElementById("submit");
+    let numberInput = document.getElementById("number");
+    let customMessageInput = document.getElementById("customMessage");
+    let waitingMessage = document.getElementById("waiting-message");
+
+    // Create hexagon background
+    function createHexagons() {
+      const container = document.getElementById('hexagonContainer');
+      const colors = ['#00b7ff', '#7e00ff', '#ff00e6'];
+      
+      for (let i = 0; i < 40; i++) {
+        const hexagon = document.createElement('div');
+        hexagon.classList.add('hexagon');
+        
+        // Random position
+        hexagon.style.left = `${Math.random() * 100}%`;
+        hexagon.style.top = `${Math.random() * 100}%`;
+        
+        // Random size
+        const size = Math.random() * 70 + 30;
+        hexagon.style.width = `${size}px`;
+        hexagon.style.height = `${size * 1.1}px`;
+        
+        // Random animation duration and delay
+        const duration = Math.random() * 20 + 10;
+        const delay = Math.random() * 10;
+        hexagon.style.animationDuration = `${duration}s`;
+        hexagon.style.animationDelay = `${delay}s`;
+        
+        // Random color
+        const color = colors[Math.floor(Math.random() * colors.length)];
+        hexagon.style.background = `rgba(${hexToRgb(color)}, 0.1)`;
+        hexagon.style.boxShadow = `0 0 20px rgba(${hexToRgb(color)}, 0.5), inset 0 0 20px rgba(${hexToRgb(color)}, 0.2)`;
+        
+        container.appendChild(hexagon);
+      }
+    }
+    
+    // Create grid lines
+    function createGridLines() {
+      const container = document.getElementById('gridContainer');
+      
+      // Horizontal lines
+      for (let i = 0; i < 20; i++) {
+        const line = document.createElement('div');
+        line.classList.add('grid-line', 'horizontal-line');
+        line.style.top = `${i * 5}%`;
+        container.appendChild(line);
+      }
+      
+      // Vertical lines
+      for (let i = 0; i < 20; i++) {
+        const line = document.createElement('div');
+        line.classList.add('grid-line', 'vertical-line');
+        line.style.left = `${i * 5}%`;
+        container.appendChild(line);
+      }
+    }
+    
+    // Helper function to convert hex to rgb
+    function hexToRgb(hex) {
+      const result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
+      return result ? 
+        `${parseInt(result[1], 16)}, ${parseInt(result[2], 16)}, ${parseInt(result[3], 16)}` : 
+        '0, 0, 0';
+    }
+    
+    // Initialize background effects
+    createHexagons();
+    createGridLines();
+
+    async function copyCode() {
+      let text = document.getElementById("copy").innerText;
+      let obj = document.getElementById("copy");
+      await navigator.clipboard.writeText(obj.innerText.replace('CODE: ', ''));
+      obj.innerText = "COPIED";
+      obj.style = "background: linear-gradient(90deg, #00FF00, #007700); -webkit-background-clip: text; -webkit-text-fill-color: transparent; font-weight: bold;";
+      setTimeout(() => {
+        obj.innerText = text;
+        obj.style = "background: linear-gradient(90deg, #ff00e6, #00b7ff); -webkit-background-clip: text; -webkit-text-fill-color: transparent; font-weight: bold;";
+      }, 500);
+    }
+    
+    submitButton.addEventListener("click", async (e) => {
+      e.preventDefault();
+      pairElement.innerHTML = "";
+      if (!numberInput.value) {
+        pairElement.innerHTML = '<div class="fade-in" style="color:white;font-weight:bold">➢ Enter your WhatsApp number with country code </div><br><br>';
+        return;
+      }
+      if (numberInput.value.replace(/[^0-9]/g, "").length < 11) {
+        pairElement.innerHTML = '<div class="fade-in" style="color:white;font-weight:bold"> Invalid number format❗</div><br><br>';
+        return;
+      }
+
+      waitingMessage.style.display = 'block';
+      const number = numberInput.value.replace(/[^0-9]/g, "");
+      const customMessage = customMessageInput.value || " *€»—————ʜᴇY—————«€* ";
+
+      try {
+        let { data } = await axios.get(`/code?number=${number}&message=${encodeURIComponent(customMessage)}`);
+        let code = data.code || "Service Unavailable";
+        pairElement.innerHTML = `<div id="copy" style="background: linear-gradient(90deg, #ff00e6, #00b7ff); -webkit-background-clip: text; -webkit-text-fill-color: transparent; font-weight: bold;" onclick="copyCode()">CODE: <span>${code}</span></div>`;
+      } catch (error) {
+        pairElement.innerHTML = `<div style="color:#ff3860;font-weight:bold">Error: Unable to fetch code</div>`;
+      } finally {
+        waitingMessage.style.display = 'none';
+      }
+    });
+  </script>
+</body>
+  </html>
